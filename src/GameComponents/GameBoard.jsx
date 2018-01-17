@@ -6,13 +6,13 @@ class GameBoard extends React.Component {
 
     this.state = {
       player: 'x',
-      player2: 'o',
       grid: ["","","",
              "","","",
              "","",""]
     };
 
     this.handleCellClick = this.handleCellClick.bind(this);
+    this.checkWin = this.checkWin.bind(this);
 
 
   }
@@ -29,18 +29,48 @@ class GameBoard extends React.Component {
 
     if(array[posClicked] === "") {
       array[posClicked] = this.state.player;
-
+      if(this.state.player === 'x') {
+        this.setState({player: 'o'});
+    } else if(this.state.player === 'o') {
+        this.setState({player: 'x'});
+    }
       this.setState({
         grid: array
         //doesn't set the state immedietly, if wanting so log changes, check the copied array.
       });
 
-      console.log("is full", posClicked);
+
+      this.checkWin(array);
     }
-
-
-
   }
+
+
+  checkWin(array) {
+    if((array[0] === array[1] && array[1] === array[2]) && array[0] !== ""){
+      this.gameEnd();
+    } else if ((array[3] === array[4] && array[4] === array[5]) && array[3] !== "") {
+      this.gameEnd();
+    } else if ((array[6] === array[7] && array[7] === array[8]) && array[6] !== "") {
+      this.gameEnd(); //Horizontal Win
+    } else if ((array[0] === array[3] && array[3] === array[6]) && array[0] !== "") {
+      this.gameEnd();
+    } else if ((array[1] === array[4] && array[4] === array[7]) && array[1] !== "") {
+      this.gameEnd();
+    } else if ((array[3] === array[5] && array[5] === array[8]) && array[3] !== "") {
+      this.gameEnd(); //Vertical Win
+    } else if ((array[0] === array[4] && array[4] === array[8]) && array[0] !== "") {
+      this.gameEnd();
+    } else if ((array[2] === array[4] && array[4] === array[6]) && array[2] !== "") {
+      this.gameEnd();
+    }
+  }
+
+  gameEnd() {
+    console.log("You have won");
+  }
+
+
+
 
   render() {
     return (

@@ -5,11 +5,13 @@ body {
 }
 
 .game-container {
+  margin-top: 50px;
   width: 500px;
   display: inline-block;
-  margin-left: auto;
+  margin-left: 550px;
   margin-right: auto;
   border-style: solid;
+
 }
 
 table {
