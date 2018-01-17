@@ -6,6 +6,7 @@ class GameBoard extends React.Component {
 
     this.state = {
       player: 'x',
+      player2: 'o',
       grid: ["","","",
              "","","",
              "","",""]
@@ -25,12 +26,19 @@ class GameBoard extends React.Component {
 
     //this.state.grid[posClicked] = this.state.player;
     const array = this.state.grid.slice(0);
-    array[posClicked] = this.state.player;
 
-    this.setState({
-      grid: array
-      //doesn't set the state immedietly, if wanting so log changes, check the copied array.
-    });
+    if(array[posClicked] === "") {
+      array[posClicked] = this.state.player;
+
+      this.setState({
+        grid: array
+        //doesn't set the state immedietly, if wanting so log changes, check the copied array.
+      });
+
+      console.log("is full", posClicked);
+    }
+
+
 
   }
 

@@ -17,9 +17,13 @@ table {
   height: 500px;
   border-style: solid;
   border-color: green;
+  table-layout: fixed;
 
 }
 
 td {
   border-style: solid;
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
 }
