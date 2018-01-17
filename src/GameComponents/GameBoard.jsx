@@ -8,71 +8,95 @@ class GameBoard extends React.Component {
       player: 'x',
       grid: ["","","",
              "","","",
-             "","",""]
+             "","",""],
+      game: true
     };
 
     this.handleCellClick = this.handleCellClick.bind(this);
     this.checkWin = this.checkWin.bind(this);
-
-
+    this.gameEnd = this.gameEnd.bind(this);
   }
 
-
+  clearBoard() {
+    this.setState({game: true})
+    
+    // this.state.grid = this.state.grid.map(function(n) {
+    //   n = ""
+    // })
+  }
 
   handleCellClick(event) {
-    const posClicked = event.target.getAttribute('cellposition');
 
-    console.log(posClicked);
+    if(this.state.game === true){
+      const posClicked = event.target.getAttribute('cellposition');
 
-    //this.state.grid[posClicked] = this.state.player;
-    const array = this.state.grid.slice(0);
+      console.log(posClicked);
 
-    if(array[posClicked] === "") {
-      array[posClicked] = this.state.player;
-      if(this.state.player === 'x') {
-        this.setState({player: 'o'});
-    } else if(this.state.player === 'o') {
-        this.setState({player: 'x'});
+      //this.state.grid[posClicked] = this.state.player;
+      const array = this.state.grid.slice(0);
+
+      if(array[posClicked] === "") {
+        array[posClicked] = this.state.player;
+        if(this.state.player === 'x') {
+          this.setState({player: 'o'});
+      } else if(this.state.player === 'o') {
+          this.setState({player: 'x'});
+      }
+        this.setState({
+          grid: array
+          //doesn't set the state immedietly, if wanting so log changes, check the copied array.
+        });
+
+
+        this.checkWin(array);
+      }
     }
-      this.setState({
-        grid: array
-        //doesn't set the state immedietly, if wanting so log changes, check the copied array.
-      });
 
-
-      this.checkWin(array);
-    }
   }
 
 
   checkWin(array) {
     if((array[0] === array[1] && array[1] === array[2]) && array[0] !== ""){
-      this.gameEnd();
+      this.gameEnd(array[0]);
     } else if ((array[3] === array[4] && array[4] === array[5]) && array[3] !== "") {
-      this.gameEnd();
+      this.gameEnd(array[3]);
     } else if ((array[6] === array[7] && array[7] === array[8]) && array[6] !== "") {
-      this.gameEnd(); //Horizontal Win
+      this.gameEnd(array[6]); //Horizontal Win
     } else if ((array[0] === array[3] && array[3] === array[6]) && array[0] !== "") {
-      this.gameEnd();
+      this.gameEnd(array[0]);
     } else if ((array[1] === array[4] && array[4] === array[7]) && array[1] !== "") {
-      this.gameEnd();
+      this.gameEnd(array[1]);
     } else if ((array[3] === array[5] && array[5] === array[8]) && array[3] !== "") {
-      this.gameEnd(); //Vertical Win
+      this.gameEnd(array[3]); //Vertical Win
     } else if ((array[0] === array[4] && array[4] === array[8]) && array[0] !== "") {
-      this.gameEnd();
+      this.gameEnd(array[0]);
     } else if ((array[2] === array[4] && array[4] === array[6]) && array[2] !== "") {
-      this.gameEnd();
+      this.gameEnd(array[2]);
     }
   }
 
-  gameEnd() {
-    console.log("You have won");
+  gameEnd(win) {
+      this.setState({game: false})
+      if(win === 'x') {
+        this.props.handleWinner('x');
+      } else if (win === 'o') {
+        this.props.handleWinner('o');
+      }
+      console.log("You have won");
+
   }
+
+  resetBoard() {
+    this.props.takeReplayFromBoard(this.clearBoard);
+  }
+
+
 
 
 
 
   render() {
+
     return (
       <div className="game-board">
         <table>
