@@ -11,7 +11,7 @@ class GameContainer extends React.Component {
       player2score: 0
       // grid: ["","","",
       //        "","","",
-      //        "","",""],
+      //        "","",""] Need to move grid and player move states up a level and pass down.
     };
 
     this.handleWinner = this.handleWinner.bind(this);
